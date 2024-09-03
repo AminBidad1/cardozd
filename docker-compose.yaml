@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+    db:
+        container_name: "postgresql"
+        image: postgres:16.0-alpine
+        restart: unless-stopped
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
+        ports:
+            - "127.0.0.1:5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+#            - /root/backup:/backup/
+#        networks:
+#            - main
+#networks:
+#    main:
+volumes:
+    postgres_data:
+    cache:
+        driver: local

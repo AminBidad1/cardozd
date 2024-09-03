@@ -1,0 +1,15 @@
+[GLOBAL]
+pants_version = "2.21.1"
+backend_packages = [
+  "pants.backend.shell",
+  "pants.backend.python",
+  "pants.backend.python.lint.black",
+  "pants.backend.docker",
+  "pants.backend.docker.lint.hadolint",
+]
+
+[anonymous-telemetry]
+enabled = false
+
+[python]
+interpreter_constraints = ['CPython==3.12.*']

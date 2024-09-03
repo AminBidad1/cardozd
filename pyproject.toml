@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "cardozd"
+version = "0.1.0"
+description = ""
+authors = ["aminbidad1 <amin.200.bidad@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1"
+environs = "^11.0.0"
+django-cors-headers = "^4.4.0"
+psycopg2-binary = "^2.9.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
