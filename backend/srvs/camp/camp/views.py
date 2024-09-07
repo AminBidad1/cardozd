@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from backend.srvs.camp.camp.models import Post
+from backend.srvs.camp.camp.serializers import PostSerializer
+from rest_framework.viewsets import ModelViewSet
 
-# Create your views here.
+
+class PostViewSet(ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    ordering = ["-created_at"]
