@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend.srvs.camp.camp',
+    'rest_framework',
 ]
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -50,7 +51,28 @@ TEMPLATES = [
         },
     },
 ]
+
 # Django rest framework
+REST_FRAMEWORK = {
+    # "DEFAULT_FILTER_BACKENDS": [
+    #     "django_filters.rest_framework.DjangoFilterBackend",
+    # ],
+    "DEFAULT_PAGINATION_CLASS": (
+        "rest_framework.pagination.LimitOffsetPagination"
+    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # ),
+    # 'DEFAULT_THROTTLE_CLASSES': [
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'rest_framework.throttling.UserRateThrottle'
+    # ],
+    # 'DEFAULT_THROTTLE_RATES': {
+    #     'anon': '60/minute',
+    #     'user': '60/minute'
+    # },
+    "PAGE_SIZE": 10,
+}
 
 # Database
 DATABASES = {
