@@ -11,7 +11,7 @@ env.read_env()
 SECRET_KEY = env.str("SECRET_KEY", default='django-insecure-8%*9xie^lg5ikk6iz53dq+p&di%c(r_1fyj-6qkl$lv)pff8cq')
 
 DEBUG = env.bool("DEBUG", default=True)
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default="127.0.0.1,backend")
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default="127.0.0.1,backend,0.0.0.0")
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default="127.0.0.1,backend")
 
 # Application definition

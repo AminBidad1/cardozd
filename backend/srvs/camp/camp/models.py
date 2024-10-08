@@ -5,7 +5,10 @@ from django.db.models import (
     IntegerField,
     BigIntegerField,
     TextField,
-    BooleanField
+    BooleanField,
+    URLField,
+    ForeignKey,
+    CASCADE,
 )
 from django.core.validators import (
     MaxValueValidator,
@@ -19,7 +22,107 @@ from backend.srvs.camp.camp._settings import (
     DESCRIPTION_MAX,
     WORK_EXPERIENCE_MIN,
     WORK_EXPERIENCE_MAX,
+    EMPLOYEES_MIN,
+    EMPLOYEES_MAX,
+    BUILT_YEAR_MIN,
+    BUILT_YEAR_MAX,
+    URL_LENGTH,
 )
+
+
+class BaseCompany(Model):
+    class Industry(IntegerChoices):
+        COMPUTER_AND_INFORMATION_TECHNOLOGY_AND_INTERNET = 1
+        PRODUCTION_AND_INDUSTRIES = 2
+        ADVERTISING_AND_RECOVERY_AND_BRANDING = 3
+        MEDICAL_AND_HEALTH_SERVICES = 4
+        ARCHITECTURE_AND_CIVIL_ENGINEERING = 5
+        EDUCATION_AND_SCHOOLS_AND_UNIVERSITIES = 6
+        MEDIA_AND_PUBLICATIONS = 7
+        OIL_AND_GAS = 8
+        TOURISM_AND_HOTEL = 9
+        FINANCIAL_AND_CREDIT = 10
+        TELECOM = 11
+        REAL_ESTATE = 12
+        INSURANCE = 13
+        HUMAN_RESOURCES = 14
+        FORCE = 15
+        ADVOCACY_AND_LEGAL = 16
+        GOVERNMENT = 17
+        OTHER = 18
+
+    created_at = DateTimeField(
+        auto_now_add=True,
+        db_index=True,
+    )
+    modified_at = DateTimeField(
+        auto_now=True,
+        db_index=True,
+    )
+    published_at = DateTimeField(
+        null=True,
+        blank=True,
+    )
+    destroyed_at = DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    industry_id = IntegerField(
+        null=True,
+        choices=Industry.choices,
+    )
+    title = TextField(
+        null=False,
+        blank=False,
+    )
+    min_employees = IntegerField(
+        null=True,
+        blank=True,
+        validators=[
+            MinValueValidator(EMPLOYEES_MIN),
+            MaxValueValidator(EMPLOYEES_MAX),
+        ],
+    )
+    max_employees = IntegerField(
+        null=True,
+        blank=True,
+        validators=[
+            MinValueValidator(EMPLOYEES_MIN),
+            MaxValueValidator(EMPLOYEES_MAX),
+        ],
+    )
+    built_year = IntegerField(
+        null=True,
+        blank=True,
+        validators=[
+            MinValueValidator(BUILT_YEAR_MIN),
+            MaxValueValidator(BUILT_YEAR_MAX),
+        ],
+    )
+    website = URLField(
+        max_length=URL_LENGTH,
+        unique=False,
+    )
+    description = TextField(
+        null=True,
+        blank=True,
+        max_length=DESCRIPTION_MAX,
+    )
+    public_address = TextField(
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        abstract = True
+
+
+class CompanyPage(BaseCompany):
+    url = URLField(
+        max_length=URL_LENGTH,
+        unique=True,
+    )
 
 
 class BaseJob(Model):
@@ -100,10 +203,6 @@ class BaseJob(Model):
         FINISHED_OR_PERMANENT_EXEMPTION = 2
         EDUCATIONAL_EXEMPTION = 3
 
-    # class Education(IntegerChoices):
-    #     NOT_IMPORTANT = 1
-    #     DIPLOMA = 2
-
     class Status(IntegerChoices):
         ALIVE = 1
         EXPIRED = 2
@@ -157,10 +256,6 @@ class BaseJob(Model):
         null=True,
         choices=MilitaryStatus.choices,
     )
-    # education_id = IntegerField(
-    #     null=True,
-    #     choices=Education.choices,
-    # )
     status_id = IntegerField(
         null=True,
         choices=Status.choices,
@@ -240,4 +335,14 @@ class BaseJob(Model):
 
 
 class Post(BaseJob):
-    pass
+    company = ForeignKey(
+        CompanyPage,
+        on_delete=CASCADE,
+        related_name="posts",
+        null=True,
+        blank=True,
+    )
+    url = URLField(
+        max_length=URL_LENGTH,
+        unique=True,
+    )

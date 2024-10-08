@@ -4,10 +4,15 @@ from django.urls import (
     include,
 )
 from rest_framework import routers
-from backend.srvs.camp.camp.views import PostViewSet
+from backend.srvs.camp.camp.views import (
+    PostViewSet,
+    CompanyPageViewSet,
+)
+
 
 camp_router = routers.DefaultRouter()
 camp_router.register(r"posts", PostViewSet)
+camp_router.register(r"companies", CompanyPageViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
